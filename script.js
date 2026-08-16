@@ -7,6 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
   let gridData = createGridData(gridSize);
   let pendingGridSize = 32;
 
+  // Undo History State
+  let undoStack = [];
+  const maxHistory = 30;
+
   const presets = [
     "#059669", "#dc2626", "#2563eb", "#d97706",
     "#7c3aed", "#db2777", "#111827", "#ffffff"
@@ -23,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const paletteContainer = document.getElementById("color-palette");
   const toolBtns = document.querySelectorAll(".tool-btn");
   const clearBtn = document.getElementById("clear-btn");
+  const undoBtn = document.getElementById("undo-btn");
 
   const tabBtns = document.querySelectorAll(".tab-btn");
   const tabContents = document.querySelectorAll(".tab-content");
@@ -63,6 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderPixelCanvas();
     renderGridOverlay();
     setupEventListeners();
+    updateUndoButtonState();
   }
 
   function createGridData(size) {
@@ -76,6 +82,33 @@ document.addEventListener("DOMContentLoaded", () => {
     pixelCanvas.height = size;
     gridCanvas.width = size;
     gridCanvas.height = size;
+  }
+
+  // --- Undo History Management ---
+  function saveStateToUndo() {
+    undoStack.push(JSON.parse(JSON.stringify(gridData)));
+    if (undoStack.length > maxHistory) {
+      undoStack.shift();
+    }
+    updateUndoButtonState();
+  }
+
+  function updateUndoButtonState() {
+    if (undoStack.length === 0) {
+      undoBtn.style.opacity = "0.5";
+      undoBtn.style.cursor = "not-allowed";
+    } else {
+      undoBtn.style.opacity = "1";
+      undoBtn.style.cursor = "pointer";
+    }
+  }
+
+  function undo() {
+    if (undoStack.length === 0) return;
+    gridData = undoStack.pop();
+    renderPixelCanvas();
+    saveToLocalStorage();
+    updateUndoButtonState();
   }
 
   // --- Render Functions ---
@@ -327,6 +360,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Drawing Pointer Events
     const startDrawing = (e) => {
+      saveStateToUndo();
       isDrawing = true;
       const { x, y } = getGridCoordinates(e);
       handleCellAction(x, y);
@@ -390,10 +424,14 @@ document.addEventListener("DOMContentLoaded", () => {
       updateExportPreview();
     });
 
+    // Undo Button Action
+    undoBtn.addEventListener("click", undo);
+
     // Clear Modal Actions
     clearBtn.addEventListener("click", () => clearModal.classList.add("active"));
     cancelClear.addEventListener("click", () => clearModal.classList.remove("active"));
     confirmClear.addEventListener("click", () => {
+      saveStateToUndo();
       gridData = createGridData(gridSize);
       renderPixelCanvas();
       saveToLocalStorage();
@@ -414,6 +452,8 @@ document.addEventListener("DOMContentLoaded", () => {
     confirmResize.addEventListener("click", () => {
       gridSize = pendingGridSize;
       gridData = createGridData(gridSize);
+      undoStack = [];
+      updateUndoButtonState();
       setupCanvasResolution();
       renderPixelCanvas();
       renderGridOverlay();
