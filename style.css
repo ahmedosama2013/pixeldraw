@@ -146,6 +146,10 @@ body {
   gap: 6px;
 }
 
+.action-group .btn-group .btn {
+  flex: 1;
+}
+
 .tool-btn {
   background-color: var(--surface-color);
   border: 1px solid var(--surface-border);
@@ -315,7 +319,6 @@ body {
 .btn-danger {
   background-color: var(--danger-color);
   color: white;
-  width: 100%;
 }
 
 .btn-danger:hover {
