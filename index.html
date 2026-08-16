@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PixelDraw</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand">
+        <h1>PixelDraw</h1>
+      </div>
+      <nav class="nav-tabs">
+        <button class="tab-btn active" data-tab="canvas">Canvas</button>
+        <button class="tab-btn" data-tab="export">Export Options</button>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-main">
+      <!-- Canvas Tab -->
+      <section id="tab-canvas" class="tab-content active">
+        <!-- Toolbar -->
+        <div class="toolbar">
+          <div class="tool-group">
+            <label class="group-label">Tools</label>
+            <div class="btn-group">
+              <button class="tool-btn active" data-tool="pencil" title="Pencil">✏️</button>
+              <button class="tool-btn" data-tool="eraser" title="Eraser">🧹</button>
+              <button class="tool-btn" data-tool="bucket" title="Bucket Fill">🪣</button>
+            </div>
+          </div>
+
+          <div class="tool-group">
+            <label class="group-label">Grid Size</label>
+            <div class="custom-select-wrapper" id="grid-select-wrapper">
+              <div class="custom-select-trigger" id="grid-select-trigger">32 x 32</div>
+              <div class="custom-options" id="grid-custom-options">
+                <div class="custom-option" data-value="16">16 x 16</div>
+                <div class="custom-option selected" data-value="32">32 x 32</div>
+                <div class="custom-option" data-value="64">64 x 64</div>
+                <div class="custom-option" data-value="100">100 x 100</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tool-group">
+            <label class="group-label">Color</label>
+            <div class="color-picker-wrapper">
+              <input type="color" id="primary-color" value="#059669" />
+            </div>
+          </div>
+
+          <div class="tool-group palette-group">
+            <label class="group-label">Presets</label>
+            <div class="palette" id="color-palette"></div>
+          </div>
+
+          <div class="tool-group action-group">
+            <label class="group-label">Actions</label>
+            <button class="btn btn-danger" id="clear-btn" title="Clear Canvas">Clear</button>
+          </div>
+        </div>
+
+        <!-- Canvas Container -->
+        <div class="canvas-wrapper" id="canvas-wrapper">
+          <canvas id="pixel-canvas"></canvas>
+          <canvas id="grid-canvas"></canvas>
+        </div>
+      </section>
+
+      <!-- Export Tab -->
+      <section id="tab-export" class="tab-content">
+        <div class="export-card">
+          <h2>Export Artwork</h2>
+          <div class="export-preview-container">
+            <img id="export-preview" alt="Artwork Preview" />
+          </div>
+
+          <div class="export-options">
+            <div class="option-field">
+              <label>Format</label>
+              <div class="custom-select-wrapper" id="format-select-wrapper">
+                <div class="custom-select-trigger" id="format-select-trigger">PNG (Transparent/Lossless)</div>
+                <div class="custom-options" id="format-custom-options">
+                  <div class="custom-option selected" data-value="png">PNG (Transparent/Lossless)</div>
+                  <div class="custom-option" data-value="jpg">JPG (White Background)</div>
+                  <div class="custom-option" data-value="svg">SVG (Vector Scalable)</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="option-field">
+              <label>Scale Multiplier</label>
+              <div class="custom-select-wrapper" id="scale-select-wrapper">
+                <div class="custom-select-trigger" id="scale-select-trigger">8x (Recommended)</div>
+                <div class="custom-options scrollable-options" id="scale-custom-options">
+                  <div class="custom-option" data-value="1">1x (Original Pixels)</div>
+                  <div class="custom-option" data-value="2">2x</div>
+                  <div class="custom-option" data-value="4">4x</div>
+                  <div class="custom-option" data-value="6">6x</div>
+                  <div class="custom-option selected" data-value="8">8x (Recommended)</div>
+                  <div class="custom-option" data-value="12">12x</div>
+                  <div class="custom-option" data-value="16">16x (Max)</div>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn btn-primary" id="download-btn">Download Image</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer Attribution -->
+    <footer class="app-footer-attribution">
+      <p>Made By : ahmedosama2013b@gmail.com</p>
+      <a href="https://github.com/ahmedosama2013/pixeldraw" target="_blank" class="github-link">View On Github</a>
+    </footer>
+  </div>
+
+  <!-- Custom Confirmation Modal for Clear -->
+  <div class="custom-modal-backdrop" id="clear-modal">
+    <div class="custom-modal">
+      <h3>Clear Canvas</h3>
+      <p>Are you sure you want to clear your artwork?</p>
+      <div class="custom-modal-actions">
+        <button class="btn btn-secondary" id="cancel-clear">Cancel</button>
+        <button class="btn btn-danger" id="confirm-clear">Yes, Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Confirmation Modal for Grid Resize -->
+  <div class="custom-modal-backdrop" id="resize-modal">
+    <div class="custom-modal">
+      <h3>Change Grid Size</h3>
+      <p>Changing grid size will reset your current artwork. Continue?</p>
+      <div class="custom-modal-actions">
+        <button class="btn btn-secondary" id="cancel-resize">Cancel</button>
+        <button class="btn btn-primary" id="confirm-resize">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
