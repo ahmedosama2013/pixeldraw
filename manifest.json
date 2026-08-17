@@ -1,5 +1,5 @@
 {
-  "name": "PixelDraw: Pixel Art Studio",
+  "name": "PixelDraw",
   "short_name": "PixelDraw",
   "description": "A clean, responsive pixel art editor to draw on customizable grids and export high-resolution artwork.",
   "id": "./",
