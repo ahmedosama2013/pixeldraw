@@ -1,0 +1,23 @@
+{
+  "name": "PixelDraw: Pixel Art Studio",
+  "short_name": "PixelDraw",
+  "description": "A clean, responsive pixel art editor to draw on customizable grids and export high-resolution artwork.",
+  "id": "./",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#0f172a",
+  "orientation": "any",
+  "lang": "en",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
